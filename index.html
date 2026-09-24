@@ -1,14 +1,386 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#fff5f7" />
-    <title>只属于莹宝的生日小世界</title>
-    <script type="module" crossorigin src="./assets/index-CM7cZGfE.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Be_Iult5.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050914">
+  <meta name="description" content="旭宝写给莹宝的中秋礼物：最近辛苦加班了，注意身体，今天下班开车小心，回家一路平安。">
+  <title>今夜月色真美 · 写给莹宝</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23050914'/%3E%3Cpath d='M42 13a21 21 0 1 0 9 39A22 22 0 0 1 42 13Z' fill='%23f6dfaa'/%3E%3Ccircle cx='17' cy='17' r='2' fill='%23d6b873'/%3E%3C/svg%3E" type="image/svg+xml">
+  <style>
+    :root {
+      --ink: #f5f1e8;
+      --muted: #a9b1c4;
+      --faint: #737d94;
+      --night: #050914;
+      --navy: #0b1222;
+      --navy-2: #121c32;
+      --gold: #e8c979;
+      --gold-soft: #f5e4b0;
+      --line: rgba(232, 201, 121, .22);
+      --glass: rgba(12, 20, 38, .64);
+      --shadow: 0 28px 80px rgba(0,0,0,.35);
+      --serif: "STSong", "Songti SC", "Noto Serif CJK SC", "Source Han Serif SC", Georgia, serif;
+      --sans: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--night); }
+    body { margin: 0; color: var(--ink); background: var(--night); font-family: var(--sans); font-size: 16px; line-height: 1.9; overflow-x: hidden; }
+    button { font: inherit; color: inherit; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 4px; }
+    ::selection { background: rgba(232, 201, 121, .3); }
+    .screen { min-height: 100svh; position: relative; isolation: isolate; overflow: hidden; }
+    .stars, .stars::before, .stars::after { position: absolute; inset: 0; content: ""; pointer-events: none; background-repeat: repeat; }
+    .stars { opacity: .52; background-image: radial-gradient(circle at 12% 22%, rgba(255,240,194,.85) 0 1px, transparent 1.5px), radial-gradient(circle at 78% 18%, rgba(255,240,194,.55) 0 1px, transparent 1.5px), radial-gradient(circle at 31% 64%, rgba(255,240,194,.7) 0 1px, transparent 1.6px), radial-gradient(circle at 88% 72%, rgba(255,240,194,.6) 0 1px, transparent 1.5px); background-size: 240px 220px, 310px 270px, 180px 260px, 370px 330px; }
+    .stars::before { opacity: .32; background-image: radial-gradient(circle at 55% 42%, rgba(255,255,255,.75) 0 1px, transparent 1.5px), radial-gradient(circle at 6% 80%, rgba(255,255,255,.5) 0 1px, transparent 1.5px); background-size: 290px 190px, 210px 310px; animation: drift 28s linear infinite; }
+    @keyframes drift { to { transform: translate3d(20px, -12px, 0); } }
+    .nebula { position: absolute; width: 70vw; height: 45vw; left: 12%; top: 10%; border-radius: 50%; background: radial-gradient(ellipse, rgba(38,68,126,.2), transparent 65%); filter: blur(35px); pointer-events:none; }
+    .moon { width: clamp(165px, 25vw, 320px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 31%, #fff7d7 0 4%, #f2d993 35%, #cda965 70%, #a87e4b 100%); box-shadow: 0 0 30px rgba(248,225,157,.22), 0 0 110px rgba(244,208,115,.18); position: relative; }
+    .moon::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at 65% 27%, rgba(102,70,43,.12) 0 5%, transparent 5.5%), radial-gradient(circle at 28% 72%, rgba(102,70,43,.11) 0 8%, transparent 8.5%), radial-gradient(circle at 70% 73%, rgba(102,70,43,.1) 0 4%, transparent 4.5%); mix-blend-mode: multiply; }
+    .moon-crescent { position: absolute; width: 120%; height: 55%; top: 23%; left: -10%; background: rgba(6,10,21,.35); filter: blur(12px); border-radius: 50%; transform: rotate(-14deg); opacity: .38; }
+    .moon-button { cursor: pointer; border: 0; padding: 0; background: none; -webkit-tap-highlight-color: transparent; }
+    .intro { display: grid; place-items: center; text-align: center; padding: 40px 22px 80px; background: radial-gradient(ellipse at 50% 48%, #14223e 0%, var(--night) 62%); }
+    .intro-content { position: relative; z-index: 1; width: min(700px, 100%); display: flex; align-items: center; flex-direction: column; gap: 24px; }
+    .eyebrow { color: var(--gold); letter-spacing: .28em; text-transform: uppercase; font-size: 12px; }
+    h1,h2,h3,p { margin: 0; }
+    h1,h2,h3 { font-family: var(--serif); font-weight: 400; }
+    .intro-title { font-size: clamp(34px, 6vw, 68px); line-height: 1.18; letter-spacing: .08em; }
+    .intro-copy { color: var(--gold-soft); font-family: var(--serif); font-size: clamp(19px, 3vw, 28px); line-height: 1.8; }
+    .intro-note { color: var(--muted); font-size: 13px; letter-spacing: .08em; }
+    .gold-button { border: 1px solid rgba(232,201,121,.58); background: rgba(232,201,121,.09); color: var(--gold-soft); border-radius: 999px; cursor: pointer; padding: 13px 25px; min-height: 50px; transition: .3s ease; }
+    .gold-button:hover { background: rgba(232,201,121,.18); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(232,201,121,.12); }
+    .ghost-button { border: 1px solid rgba(245,241,232,.16); background: rgba(255,255,255,.04); color: var(--muted); border-radius: 999px; cursor: pointer; padding: 10px 18px; transition: .3s ease; }
+    .ghost-button:hover { border-color: rgba(232,201,121,.4); color: var(--gold-soft); }
+    .intro-after { opacity: 0; max-height: 0; overflow: hidden; transition: opacity 1s ease, max-height 1.2s ease; }
+    .intro-after.visible { opacity: 1; max-height: 220px; }
+    .intro-after p { font-family: var(--serif); font-size: 23px; color: var(--gold-soft); }
+    .care-note { width: min(540px, 100%); border-top: 1px solid rgba(232,201,121,.25); border-bottom: 1px solid rgba(232,201,121,.25); padding: 17px 10px; color: var(--muted); font-family: var(--serif); font-size: 17px; line-height: 1.9; }
+    .care-note strong { color: var(--gold-soft); font-weight: 400; }
+    .scroll-cue { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); color: var(--faint); font-size: 12px; letter-spacing: .18em; }
+    .scroll-cue::after { content: "↓"; display: block; text-align: center; color: var(--gold); font-size: 22px; line-height: 1.3; animation: bob 2s ease-in-out infinite; }
+    @keyframes bob { 50% { transform: translateY(5px); } }
+    .music { position: fixed; right: 18px; top: 17px; z-index: 30; width: 42px; height: 42px; border: 1px solid rgba(232,201,121,.3); border-radius: 50%; background: rgba(5,9,20,.68); color: var(--gold); cursor: pointer; backdrop-filter: blur(12px); }
+    .music.on { animation: musicPulse 1.8s ease-in-out infinite; }
+    @keyframes musicPulse { 50% { box-shadow: 0 0 0 7px rgba(232,201,121,.05); } }
+    .progress { position: fixed; left: 0; top: 0; height: 2px; z-index: 40; width: 0; background: var(--gold); transition: width .15s linear; }
+    .chapter { position: relative; padding: clamp(90px, 12vw, 170px) 22px; background: linear-gradient(180deg, var(--night), #080f1e 55%, var(--night)); }
+    .chapter:nth-of-type(even) { background: linear-gradient(180deg, #080f1e, #0d1628 55%, #080f1e); }
+    .container { width: min(940px, 100%); margin: 0 auto; position: relative; z-index: 1; }
+    .chapter-intro { max-width: 630px; margin: 0 auto 70px; text-align: center; }
+    .chapter-num { color: var(--gold); font-size: 12px; letter-spacing: .25em; margin-bottom: 14px; }
+    .chapter-title { font-size: clamp(30px, 5vw, 52px); line-height: 1.4; letter-spacing: .06em; }
+    .chapter-lead { margin-top: 25px; color: var(--muted); font-family: var(--serif); font-size: 19px; line-height: 2.1; }
+    .story { min-height: 92vh; display: grid; place-items: center; text-align: center; overflow: hidden; background: radial-gradient(ellipse at 50% 10%, #12213d 0, #050914 67%); }
+    .story .moon { margin: -15vh auto 44px; }
+    .story-copy { min-height: 250px; display: grid; place-items: center; }
+    .story-line { display: none; font-family: var(--serif); font-size: clamp(23px, 4.2vw, 40px); line-height: 1.85; color: var(--gold-soft); max-width: 750px; animation: rise .9s ease both; }
+    .story-line.active { display: block; }
+    .story-line.emphasis { color: #fff9e8; font-size: clamp(42px, 8vw, 88px); letter-spacing: .14em; }
+    .story-actions { display: flex; justify-content: center; gap: 12px; margin-top: 35px; flex-wrap: wrap; }
+    @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    .next-line { border: 0; border-bottom: 1px solid rgba(232,201,121,.4); padding: 7px 3px; color: var(--gold); background: none; cursor: pointer; font-size: 14px; }
+    .timeline { position: relative; display: grid; gap: 18px; padding-left: 30px; }
+    .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 8px; width: 1px; background: linear-gradient(var(--gold), transparent); }
+    .moment { position: relative; border: 1px solid rgba(232,201,121,.17); border-radius: 16px; background: rgba(255,255,255,.035); overflow: hidden; transition: .35s ease; }
+    .moment::before { content: ""; position: absolute; left: -29px; top: 22px; width: 11px; height: 11px; border: 1px solid var(--gold); background: var(--night); border-radius: 50%; box-shadow: 0 0 15px rgba(232,201,121,.3); }
+    .moment.open { border-color: rgba(232,201,121,.44); background: rgba(232,201,121,.05); }
+    .moment summary { cursor: pointer; list-style: none; padding: 20px 22px; display: flex; justify-content: space-between; gap: 18px; align-items: center; }
+    .moment summary::-webkit-details-marker { display: none; }
+    .moment summary::after { content: "+"; color: var(--gold); font-size: 24px; font-weight: 200; }
+    .moment[open] summary::after { content: "−"; }
+    .moment-kicker { color: var(--gold); font-size: 12px; letter-spacing: .18em; display: block; margin-bottom: 6px; }
+    .moment-title { font-family: var(--serif); font-size: 22px; font-weight: 400; }
+    .moment-content { padding: 0 22px 25px; display: grid; grid-template-columns: minmax(150px, 220px) 1fr; gap: 28px; align-items: center; }
+    .photo-placeholder { min-height: 180px; border-radius: 12px; border: 1px solid rgba(232,201,121,.2); background: linear-gradient(145deg, rgba(40,66,110,.9), rgba(14,22,40,.9)); display: grid; place-items: center; color: rgba(245,228,176,.72); font-size: 12px; letter-spacing: .16em; text-align: center; padding: 12px; position: relative; overflow: hidden; }
+    .photo-placeholder::after { content: "✦"; position: absolute; right: 13px; top: 7px; color: rgba(232,201,121,.42); }
+    .photo-placeholder.alt { background: linear-gradient(145deg, rgba(102,70,66,.85), rgba(22,27,48,.95)); }
+    .photo-placeholder.warm { background: linear-gradient(145deg, rgba(118,91,52,.9), rgba(23,27,44,.96)); }
+    .photo-placeholder.dark { background: linear-gradient(145deg, rgba(42,46,78,.95), rgba(7,12,23,.98)); }
+    .moment-text { color: var(--muted); font-family: var(--serif); font-size: 18px; line-height: 2.05; white-space: pre-line; }
+    .moment-text strong { display: block; color: var(--gold-soft); font-weight: 400; margin-top: 18px; }
+    @media (max-width: 650px) { .moment-content { grid-template-columns: 1fr; gap: 19px; } .photo-placeholder { min-height: 145px; } .moment summary { padding: 18px; } .moment-content { padding: 0 18px 21px; } }
+    .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 780px; margin: 0 auto; }
+    .flip-card { min-height: 190px; perspective: 1000px; cursor: pointer; }
+    .flip-inner { position: relative; width: 100%; height: 100%; min-height: 190px; transition: transform .65s cubic-bezier(.2,.8,.2,1); transform-style: preserve-3d; }
+    .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+    .card-face { backface-visibility: hidden; position: absolute; inset: 0; border: 1px solid rgba(232,201,121,.23); border-radius: 16px; padding: 22px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: linear-gradient(150deg, rgba(22,37,67,.9), rgba(7,13,26,.96)); }
+    .card-face.back { transform: rotateY(180deg); align-items: flex-start; text-align: left; background: linear-gradient(150deg, rgba(57,48,46,.9), rgba(12,19,35,.98)); overflow-y: auto; }
+    .card-face h3 { color: var(--gold-soft); font-size: 21px; line-height: 1.5; }
+    .card-face small { color: var(--faint); margin-top: 16px; }
+    .card-copy { color: var(--muted); font-family: var(--serif); line-height: 1.9; white-space: pre-line; font-size: 16px; }
+    .card-copy strong { display: block; color: var(--gold-soft); font-size: 21px; font-weight: 400; margin: 8px 0; }
+    .step-card .step-line { display: none; }
+    .step-card .step-line.show { display: block; animation: rise .5s ease both; }
+    .step-card .step-hint { color: var(--gold); font-size: 12px; margin-top: auto; }
+    @media (max-width: 760px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 450px) { .cards-grid { grid-template-columns: 1fr; } }
+    .gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 15px; }
+    .gallery-item { grid-column: span 4; border: 0; padding: 0; background: none; cursor: pointer; text-align: left; color: inherit; }
+    .gallery-item:nth-child(2), .gallery-item:nth-child(5) { transform: translateY(25px); }
+    .gallery-item:nth-child(4) { grid-column: 2 / span 4; }
+    .gallery-photo { aspect-ratio: 4 / 5; border: 1px solid rgba(232,201,121,.18); background: linear-gradient(145deg, #34496e, #121a2d); border-radius: 14px; display: grid; place-items: center; color: rgba(245,228,176,.7); letter-spacing: .1em; font-size: 12px; overflow: hidden; position: relative; transition: .35s ease; }
+    .gallery-item:nth-child(2) .gallery-photo { background: linear-gradient(145deg, #7d665a, #1a2033); }
+    .gallery-item:nth-child(3) .gallery-photo { background: linear-gradient(145deg, #9b8051, #26304a); }
+    .gallery-item:nth-child(4) .gallery-photo { background: linear-gradient(145deg, #4a536e, #181c32); }
+    .gallery-item:nth-child(5) .gallery-photo { background: linear-gradient(145deg, #855d61, #262940); }
+    .gallery-item:nth-child(6) .gallery-photo { background: linear-gradient(145deg, #70768e, #1b2134); }
+    .gallery-item:hover .gallery-photo { transform: translateY(-5px); box-shadow: var(--shadow); border-color: rgba(232,201,121,.5); }
+    .gallery-caption { display: block; padding: 10px 2px 0; color: var(--muted); font-family: var(--serif); font-size: 16px; }
+    .gallery-detail { color: var(--gold-soft); font-family: var(--serif); font-size: 17px; line-height: 1.9; margin-top: 4px; min-height: 30px; }
+    @media (max-width: 650px) { .gallery-item { grid-column: span 6; } .gallery-item:nth-child(2), .gallery-item:nth-child(5) { transform: none; } .gallery-item:nth-child(4) { grid-column: span 6; } }
+    .quiz { max-width: 650px; margin: 0 auto; text-align: center; }
+    .quiz-card { border: 1px solid rgba(232,201,121,.23); border-radius: 18px; padding: 28px; background: linear-gradient(145deg, rgba(27,39,68,.82), rgba(8,13,24,.95)); min-height: 280px; display: grid; align-content: center; gap: 20px; }
+    .quiz-question { font-family: var(--serif); font-size: 23px; color: var(--gold-soft); }
+    .quiz-options { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .quiz-option { border: 1px solid rgba(245,241,232,.18); border-radius: 999px; color: var(--muted); background: rgba(255,255,255,.04); padding: 8px 15px; cursor: pointer; transition: .2s ease; }
+    .quiz-option:hover { color: var(--gold-soft); border-color: rgba(232,201,121,.5); }
+    .quiz-result { color: var(--gold); min-height: 30px; font-family: var(--serif); font-size: 19px; }
+    .paper { background: radial-gradient(ellipse at 50% 15%, #222f4a 0, #080e1d 54%, #050914 100%); }
+    .letter { max-width: 720px; margin: 0 auto; padding: clamp(26px, 7vw, 58px); border: 1px solid rgba(232,201,121,.2); border-radius: 3px; background: linear-gradient(135deg, rgba(225,207,163,.09), rgba(255,255,255,.025)); box-shadow: var(--shadow); position: relative; }
+    .letter::after { content: "☾"; position: absolute; top: 26px; right: 30px; font-size: 28px; color: var(--gold); opacity: .85; }
+    .letter h2 { color: var(--gold-soft); font-size: clamp(26px, 5vw, 40px); margin-bottom: 36px; }
+    .letter-body { color: #d0d2d7; font-family: var(--serif); font-size: 18px; line-height: 2.2; }
+    .letter-body p + p { margin-top: 30px; }
+    .letter-body strong { color: var(--gold-soft); font-weight: 400; }
+    .signature { color: var(--gold-soft); font-family: var(--serif); font-size: 20px; margin-top: 45px; text-align: right; line-height: 1.8; }
+    .voucher-wrap { display: grid; place-items: center; }
+    .voucher { width: min(570px, 100%); color: #2a2430; background: linear-gradient(145deg, #f8e9b9, #c99453); border: 1px solid rgba(255,245,200,.9); padding: 34px 28px 28px; position: relative; box-shadow: 0 22px 70px rgba(0,0,0,.4); overflow: hidden; }
+    .voucher::before, .voucher::after { content: ""; position: absolute; top: 48%; width: 20px; height: 40px; background: var(--night); border-radius: 50%; }
+    .voucher::before { left: -11px; } .voucher::after { right: -11px; }
+    .voucher-top { display: flex; justify-content: space-between; align-items: start; gap: 18px; border-bottom: 1px solid rgba(72,47,32,.28); padding-bottom: 17px; }
+    .voucher h2 { font-size: clamp(24px, 5vw, 37px); line-height: 1.35; }
+    .voucher-moon { color: #68482f; font-size: 31px; }
+    .voucher-label { display: block; color: #74543c; font-size: 12px; letter-spacing: .16em; margin-bottom: 4px; }
+    .voucher-block { margin-top: 22px; }
+    .voucher-value { font-family: var(--serif); font-size: 25px; }
+    .voucher-list { padding: 0; margin: 10px 0 0; list-style: none; color: #5c443b; line-height: 2; }
+    .voucher-list li::first-letter { color: #6f4a22; }
+    .validity { display: flex; justify-content: space-between; border-top: 1px solid rgba(72,47,32,.28); border-bottom: 1px solid rgba(72,47,32,.28); padding: 14px 0; margin-top: 22px; gap: 12px; }
+    .validity strong { font-family: var(--serif); font-size: 20px; font-weight: 400; }
+    .voucher-note { text-align: center; color: #76583d; font-size: 12px; margin-top: 19px; }
+    .claim-message { text-align: center; margin-top: 25px; color: var(--gold-soft); font-family: var(--serif); font-size: 24px; min-height: 80px; }
+    .claim-message .claim-step { display: none; } .claim-message .claim-step.show { display: block; animation: rise .5s ease both; }
+    .ending { min-height: 100svh; display: grid; place-items: center; text-align: center; background: radial-gradient(ellipse at 50% 38%, #152645 0%, #050914 63%); }
+    .ending .moon { margin: 0 auto 50px; width: clamp(145px, 22vw, 260px); }
+    .ending-copy { font-family: var(--serif); color: var(--gold-soft); font-size: clamp(22px, 4vw, 38px); line-height: 2; }
+    .ending-copy strong { display: block; color: #fff8df; font-weight: 400; font-size: clamp(42px, 7vw, 70px); line-height: 1.3; margin: 15px 0; }
+    .ending-copy em { display: block; font-style: normal; font-size: 14px; color: var(--faint); margin-top: 32px; letter-spacing: .12em; }
+    .ending-actions { margin-top: 34px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .hidden-star { position: fixed; right: 18px; bottom: 17px; z-index: 30; border: 0; background: none; color: rgba(232,201,121,.28); cursor: pointer; font-size: 15px; padding: 10px; transition: .2s; }
+    .hidden-star:hover { color: var(--gold); transform: rotate(20deg) scale(1.1); }
+    .toast { position: fixed; left: 50%; bottom: 30px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 60; width: min(410px, calc(100% - 40px)); border: 1px solid rgba(232,201,121,.32); border-radius: 14px; padding: 14px 17px; text-align: center; color: var(--gold-soft); background: rgba(9,15,29,.9); backdrop-filter: blur(16px); transition: .35s ease; box-shadow: var(--shadow); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+    .modal { position: fixed; inset: 0; z-index: 50; display: none; place-items: center; padding: 22px; background: rgba(2,5,12,.82); backdrop-filter: blur(10px); }
+    .modal.open { display: grid; }
+    .modal-card { width: min(500px, 100%); border: 1px solid rgba(232,201,121,.34); border-radius: 18px; background: linear-gradient(145deg, #152440, #080e1c); padding: 30px; text-align: center; box-shadow: var(--shadow); }
+    .modal-card h2 { color: var(--gold-soft); font-size: 28px; margin-bottom: 17px; }
+    .modal-card p { color: var(--muted); font-family: var(--serif); font-size: 18px; line-height: 1.9; white-space: pre-line; }
+    .modal-close { margin-top: 24px; }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.is-visible { opacity: 1; transform: none; }
+    .edit-hint { margin-top: 19px; color: var(--faint); font-size: 12px; letter-spacing: .06em; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <button class="music" id="music" aria-label="开启或关闭背景音乐" title="音乐控制">♫</button>
+  <button class="hidden-star" id="hiddenStar" aria-label="隐藏彩蛋">✦</button>
+
+  <main>
+    <section class="screen intro" id="home" aria-labelledby="intro-title">
+      <div class="stars"></div><div class="nebula"></div>
+      <div class="intro-content">
+        <span class="eyebrow">2026 · 中秋特别篇</span>
+        <button class="moon-button" id="moonButton" aria-label="月亮，长按查看隐藏话语"><span class="moon"><span class="moon-crescent"></span></span></button>
+        <div class="intro-title" id="intro-title">今晚的月亮，<br>想送给你。</div>
+        <div class="intro-copy">不是月饼。<br>也不是什么很贵的礼物。<br>只是一些，我想认真留给你的东西。</div>
+        <button class="gold-button" id="startButton">收下今晚的月亮</button>
+        <div class="intro-note">建议戴上耳机 · 慢慢看</div>
+        <div class="intro-after" id="introAfter"><p>2026.10<br>给 莹宝</p></div>
+        <div class="care-note"><strong>最近总是加班的莹宝，辛苦了。</strong><br>记得注意身体。今天下班如果要开车，小心一点，回家一路平安。</div>
+      </div>
+      <div class="scroll-cue">向下看</div>
+    </section>
+
+    <section class="screen story" id="tonight">
+      <div class="stars"></div><div class="container">
+        <div class="moon reveal"><span class="moon-crescent"></span></div>
+        <div class="story-copy" id="storyCopy">
+          <p class="story-line active">小时候觉得，<br>中秋就是月饼和放假。</p>
+          <p class="story-line">后来觉得，<br>中秋不过是日历上一个固定的日期。</p>
+          <p class="story-line">可今年好像有一点不一样。</p>
+          <p class="story-line">因为今年看见月亮的时候，<br>我突然有了一个特别想分享的人。</p>
+          <p class="story-line emphasis">是你。</p>
+          <p class="story-line">所以我想，<br>与其给你发一句<br>“中秋快乐。”<br><br>不如认真做一点东西给你。</p>
+          <p class="story-line">就当今晚，<br>我把月亮借过来用一下。</p>
+        </div>
+        <div class="story-actions"><button class="next-line" id="storyNext">继续</button><button class="ghost-button" id="storySkip">跳到关于我们</button></div>
+      </div>
+    </section>
+
+    <section class="chapter" id="about">
+      <div class="container">
+        <header class="chapter-intro reveal"><div class="chapter-num">02 · 关于我们</div><h2 class="chapter-title">我们已经一起收藏了一些日子</h2><p class="chapter-lead">有些日子当时看起来很普通，<br>后来才发现，我一直记得。</p></header>
+        <div class="timeline">
+          <details class="moment reveal"><summary><span><span class="moment-kicker">01 · 最开始</span><span class="moment-title">那时候的我们</span></span></summary><div class="moment-content"><div class="photo-placeholder">EARLY PHOTO<br>放一张早期照片</div><p class="moment-text">那时候的我们，应该还不知道后来会发生这么多事。
+
+我有时候会觉得很神奇。
+
+如果当时少说一句话，晚一点认识，或者刚好没有出现在那个地方，我们现在会不会是完全不同的人生。<strong>还好没有。</strong></p></div></details>
+          <details class="moment reveal"><summary><span><span class="moment-kicker">02 · 第一次觉得，和你待着很舒服</span><span class="moment-title">时间过得特别快</span></span></summary><div class="moment-content"><div class="photo-placeholder alt">FIRST DATE<br>放一张那天的照片</div><p class="moment-text">我记不清那天所有的细节了。
+
+但我记得一种感觉——时间过得特别快。
+
+原来遇到真正聊得来的人，是不会一直想着几点该回家的。</p></div></details>
+          <details class="moment reveal"><summary><span><span class="moment-kicker">03 · 第一次一起出发</span><span class="moment-title">去哪里，好像没有和谁去重要</span></span></summary><div class="moment-content"><div class="photo-placeholder warm">TRAVEL PHOTO<br>放一张旅行照</div><p class="moment-text">后来我们开始一起去一些地方。
+
+看海。看日落。吃东西。走很久的路。拍很多照片。
+
+但后来翻照片的时候，我发现我真正记住的，经常不是景点。
+
+是你走在我旁边，是一起找吃的，是坐车的时候，是累了之后两个人随便找个地方休息。<strong>“去哪里”好像没有“和谁去”重要。</strong></p></div></details>
+          <details class="moment reveal"><summary><span><span class="moment-kicker">04 · 那些没拍下来的瞬间</span><span class="moment-title">真正开心的时候，人有时候会忘记拍照</span></span></summary><div class="moment-content"><div class="photo-placeholder dark">这里故意留白<br>没有照片也没关系</div><p class="moment-text">其实我最喜欢的一些瞬间，根本没有照片。
+
+一起吃饭的时候。在路上聊天的时候。你靠着我的时候。两个人什么都不干的时候。
+
+还有很多我当时没有想到要拿出手机记录的时刻。</p></div></details>
+          <details class="moment reveal"><summary><span><span class="moment-kicker">05 · 现在</span><span class="moment-title">我觉得这样就很好</span></span></summary><div class="moment-content"><div class="photo-placeholder warm">NOW PHOTO<br>放一张近期合照</div><p class="moment-text">然后我们就这样，一点一点走到了今天。
+
+没有什么电影一样的大剧情。
+
+更多的是很多很小、很普通、但我舍不得删掉的日子。<strong>我觉得这样就很好。</strong></p></div></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="small-things">
+      <div class="container">
+        <header class="chapter-intro reveal"><div class="chapter-num">03 · 我偷偷收藏的你</div><h2 class="chapter-title">关于你的一些小事</h2><p class="chapter-lead">有些东西我可能没有专门告诉过你。<br>但其实，我一直都有注意到。</p></header>
+        <div class="cards-grid">
+          <div class="flip-card reveal" tabindex="0"><div class="flip-inner"><div class="card-face"><h3>你笑的时候</h3><small>点击翻开</small></div><div class="card-face back"><p class="card-copy">我一直挺喜欢看你笑的。
+
+尤其不是拍照时那种准备好的笑。是真的觉得好笑，然后完全没有在管自己表情的时候。
+
+<strong>那种时候，我会忍不住多看两眼。</strong></p></div></div></div>
+          <div class="flip-card reveal" tabindex="0"><div class="flip-inner"><div class="card-face"><h3>你说“都可以”的时候</h3><small>点击翻开</small></div><div class="card-face back"><p class="card-copy">有时候你会说：“都可以。”
+
+但经过长期观察，我已经逐渐发现——
+
+<strong>并不是真的都可以。</strong>
+
+不过没关系。我正在继续学习。☺</p></div></div></div>
+          <div class="flip-card reveal" tabindex="0"><div class="flip-inner"><div class="card-face"><h3>和你出去玩</h3><small>点击翻开</small></div><div class="card-face back"><p class="card-copy">我很喜欢和你一起出去玩。
+
+不只是因为去了哪里，而是因为一路上那些本来很普通的小事情，和你一起以后都会变得很好玩。
+
+找路。吃饭。等车。纠结下一顿吃什么。甚至两个人都走累了。
+
+<strong>我都觉得值得记住。</strong></p></div></div></div>
+          <div class="flip-card reveal" tabindex="0"><div class="flip-inner"><div class="card-face"><h3>你认真起来的时候</h3><small>点击翻开</small></div><div class="card-face back"><p class="card-copy">我喜欢你开心的样子。也喜欢你认真做事情的时候。
+
+那种很专注、暂时顾不上理我的状态。
+
+虽然有时候确实会有一点被冷落，<strong>但还是很可爱。</strong></p></div></div></div>
+          <div class="flip-card reveal" tabindex="0"><div class="flip-inner"><div class="card-face"><h3>你的很多小脾气</h3><small>点击翻开</small></div><div class="card-face back"><p class="card-copy">当然。你也不是每天都可爱。
+
+有时候会生气，会不耐烦，会有自己的小情绪，会有一些我怎么猜都猜不到的想法。
+
+可我后来觉得，喜欢一个人，好像本来就不应该只喜欢她最好相处的时候。</p></div></div></div>
+          <div class="flip-card step-card reveal" tabindex="0"><div class="flip-inner"><div class="card-face"><h3>最重要的一件事</h3><small>点击翻开，再点几次</small></div><div class="card-face back"><p class="card-copy"><span class="step-line">我喜欢的是完整的你。</span><span class="step-line">不是某一张最好看的照片。</span><span class="step-line">不是某一天特别温柔的你。</span><span class="step-line"><strong>就是现在这个，会开心、会难过、会生气、会撒娇的你。</strong></span><span class="step-hint">继续点击</span></p></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chapter" id="gallery">
+      <div class="container">
+        <header class="chapter-intro reveal"><div class="chapter-num">04 · 月光相册</div><h2 class="chapter-title">一些我舍不得删掉的画面</h2><p class="chapter-lead">不按时间，也没有排名。<br>就是有时候翻到，会停下来多看两秒。</p></header>
+        <div class="gallery-grid">
+          <button class="gallery-item reveal" data-detail="没有什么特别的原因。只是觉得那天的你，很好看。"><span class="gallery-photo">PHOTO 01<br>最好看的一张</span><span class="gallery-caption">我很喜欢这一张。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="但现在回想起来，我记得最清楚的是和谁一起看的。"><span class="gallery-photo">PHOTO 02<br>旅行照</span><span class="gallery-caption">那天风景很好。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="理由暂时保密。主要是以后可能有用。"><span class="gallery-photo">PHOTO 03<br>搞怪的一张</span><span class="gallery-caption">这一张必须留下。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="后来发现，普通的一天也会因为一个人变得值得收藏。"><span class="gallery-photo">PHOTO 04<br>日常照片</span><span class="gallery-caption">普通的一天。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="我好像越来越喜欢这个词了。"><span class="gallery-photo">PHOTO 05<br>情侣合照</span><span class="gallery-caption">我们。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="我希望那时候的我们，还记得这一天。也还在一起。"><span class="gallery-photo">PHOTO 06<br>最有故事的一张</span><span class="gallery-caption">如果很多年以后再看到这一张……</span><span class="gallery-detail"></span></button>
+        </div>
+        <p class="edit-hint">把上面的 6 个画面换成你们的照片，就会变成只属于你们的月光相册。</p>
+      </div>
+    </section>
+
+    <section class="chapter" id="quiz">
+      <div class="container"><header class="chapter-intro reveal"><div class="chapter-num">05 · 中场小彩蛋</div><h2 class="chapter-title">看了这么久，做个小测试吧。</h2></header>
+        <div class="quiz reveal"><div class="quiz-card"><div class="quiz-question" id="quizQuestion">请问这个网页是谁做的？</div><div class="quiz-options" id="quizOptions"><button class="quiz-option">一个成熟稳重的人</button><button class="quiz-option">一个非常帅的人</button><button class="quiz-option">一个有一点喜欢你的人</button><button class="quiz-option">以上全部</button></div><div class="quiz-result" id="quizResult"></div><button class="gold-button" id="quizNext" style="display:none">继续</button></div></div>
+      </div>
+    </section>
+
+    <section class="chapter paper" id="letter">
+      <div class="container"><header class="chapter-intro reveal"><div class="chapter-num">06 · 写给你的信</div><h2 class="chapter-title">有几句话，想认真写给你</h2></header>
+        <article class="letter reveal"><h2>亲爱的莹宝：</h2><div class="letter-body">
+          <p>如果你看到这里，说明你已经把我偷偷准备的这个小东西看得差不多了。</p>
+          <p>最近你经常加班，我知道你真的辛苦了。忙完以后也要记得照顾好自己，别总是把身体排在最后。</p>
+          <p><strong>今天下班如果要开车，小心一点，回家一路平安。</strong> 旭宝在这里等你平安到家。</p>
+          <p>其实刚开始想做这个的时候，我纠结过很久。我想过买东西，也想过准备一些更正式的礼物。后来还是觉得，有些东西可以随时买，但有些话，如果不认真留下来，就很容易被每天忙忙碌碌的生活带过去。</p>
+          <p>我很庆幸认识你。不是因为我们的每一天都特别浪漫，也不是因为我们从来不会有情绪、不会拌嘴、不会觉得累。恰恰是因为，在经历了很多普通甚至有点琐碎的日子以后，我还是会在某个很平常的瞬间突然觉得：<strong>有你在真好。</strong></p>
+          <p>我喜欢跟你一起出去玩。喜欢跟你一起吃东西。喜欢一起计划下一次要去哪里。也喜欢很多什么都没有发生的日子。</p>
+          <p>后来我慢慢明白，可能真正喜欢一个人之后，“开心”不一定非得是一场旅行、一顿大餐或者一个特别重要的纪念日。有时候就是：今天一起吃了饭。今天一起走了一段路。今天你坐在我旁边。今天我们又见面了。</p>
+          <p>我也不知道几年以后，我们的生活会变成什么样。会在哪里，会忙些什么，还会去哪些地方。但如果可以的话，我希望很多年以后，还有机会和你一起说：“今年中秋吃什么？”然后继续纠结很久。</p>
+          <p>我不会说特别漂亮的话，也没办法保证未来的每一天都像今天这样有仪式感。但有一件事情我挺确定的。就是：<strong>至少此时此刻，我是真的很认真地喜欢你。</strong> 也是真的，很期待我们的以后。</p>
+          <p>所以今年中秋，我没有办法真的把月亮摘下来。只好做一个假的送给你。希望你不要嫌弃。</p>
+        </div><div class="signature">爱你的旭宝<br>2026 · 中秋</div></article>
+      </div>
+    </section>
+
+    <section class="chapter" id="claim"><div class="container"><header class="chapter-intro reveal"><div class="chapter-num">07 · 领取你的月亮</div><h2 class="chapter-title">最后一件事。</h2><p class="chapter-lead">你还有一份礼物没有领取。</p></header><div class="voucher-wrap reveal"><div class="voucher"><div class="voucher-top"><h2>🌙<br>2026 中秋特别兑换券</h2><span class="voucher-moon">月</span></div><div class="voucher-block"><span class="voucher-label">持有人</span><div class="voucher-value">莹宝</div></div><div class="voucher-block"><span class="voucher-label">可兑换内容</span><div class="voucher-value">一个拥抱</div><div style="color:#76583d">不限时间 · 不限地点 · 不限次数</div></div><div class="voucher-block"><span class="voucher-label">附加权益</span><ul class="voucher-list"><li>✓ 心情不好时可申请加长版拥抱</li><li>✓ 出去玩累了可申请靠一下</li><li>✓ 想吃东西时可以提出需求</li><li>✓ 生气时拥有优先哄好权</li><li>✓ 特殊情况下允许无理由撒娇</li></ul></div><div class="validity"><span class="voucher-label">有效期</span><strong id="validityText">永久有效</strong></div><div class="voucher-note">最终解释权归你所有。</div></div></div><div class="claim-message" id="claimMessage"><span class="claim-step">正在确认身份……</span><span class="claim-step">验证成功。</span><span class="claim-step">正在绑定……</span><span class="claim-step">绑定成功。</span><span class="claim-step"><strong>月亮已归你所有。</strong><br><small>顺便附赠了一个我。</small></span></div><div style="text-align:center"><button class="gold-button" id="claimButton">确认领取</button></div></div></section>
+
+    <section class="screen ending" id="ending"><div class="stars"></div><div class="container"><div class="moon reveal" id="endingMoon"><span class="moon-crescent"></span></div><div class="ending-copy reveal">人们总说，<br>月亮代表团圆。<br><br>可我现在觉得，<br>月亮还有另外一个意思。<br><br>当我们不在同一个地方的时候，<br>至少抬头看到的是同一个月亮。<strong>中秋快乐。<br>我的女孩。</strong>谢谢你出现在我的生活里。<br>今年的月亮送给你。<em>明年的，也提前给你留着。<br><br>2026 · Made with love for 莹宝<br><br>—— 旭宝</em></div><div class="ending-actions reveal"><button class="gold-button" id="againButton">再看一次</button><button class="ghost-button" id="photosButton">回到我们的照片</button><button class="ghost-button" id="musicLeave">把音乐留一会儿</button></div></div></section>
+  </main>
+
+  <div class="modal" id="secretModal" role="dialog" aria-modal="true" aria-labelledby="secretTitle"><div class="modal-card"><h2 id="secretTitle">咦。</h2><p id="secretText">这个你都发现了。</p><button class="gold-button modal-close" id="secretNext">看看是什么</button></div></div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <script>
+    const $ = (s, root = document) => root.querySelector(s);
+    const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+    const toast = (message) => { const el = $('#toast'); el.textContent = message; el.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer = setTimeout(() => el.classList.remove('show'), 3200); };
+
+    // Opening flow
+    $('#startButton').addEventListener('click', () => { $('#introAfter').classList.add('visible'); $('#startButton').style.display = 'none'; $('.intro-note').textContent = '今晚的 BGM 已开启 · 慢慢看'; startAudio(); setTimeout(() => $('#tonight').scrollIntoView({behavior:'smooth'}), 1100); });
+    $('#storyNext').addEventListener('click', () => { const lines = $$('.story-line'); let i = lines.findIndex(x => x.classList.contains('active')); if (i < lines.length - 1) { lines[i].classList.remove('active'); lines[i+1].classList.add('active'); } else { $('#about').scrollIntoView({behavior:'smooth'}); } });
+    $('#storySkip').addEventListener('click', () => $('#about').scrollIntoView({behavior:'smooth'}));
+
+    // Scroll progress and reveal
+    addEventListener('scroll', () => { const h = document.documentElement.scrollHeight - innerHeight; $('#progress').style.width = `${Math.max(0, Math.min(100, scrollY / h * 100))}%`; }, {passive:true});
+    const revealObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); }), {threshold:.16});
+    $$('.reveal').forEach(el => revealObserver.observe(el));
+    $$('details.moment').forEach(el => el.addEventListener('toggle', () => el.classList.toggle('open', el.open)));
+
+    // Flip cards, including staged final card
+    $$('.flip-card').forEach(card => { const flip = () => { card.classList.add('flipped'); if (card.classList.contains('step-card')) { const visible = $$('.step-line.show', card).length; const next = $$('.step-line', card)[Math.min(visible, 3)]; if (next) next.classList.add('show'); } }; card.addEventListener('click', flip); card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } }); });
+    $$('.gallery-item').forEach(item => item.addEventListener('click', () => { const detail = $('.gallery-detail', item); detail.textContent = detail.textContent ? '' : item.dataset.detail; }));
+
+    // Quiz
+    let quizStep = 0; const quizQuestions = [{q:'请问这个网页是谁做的？', options:['一个成熟稳重的人','一个非常帅的人','一个有一点喜欢你的人','以上全部'], result:'回答正确。'}, {q:'请问今天最重要的事情是什么？', options:['吃月饼','看月亮','收红包','开心'], result:'标准答案其实是：\n你开心。\n\n不过月饼也挺重要。'}];
+    function renderQuiz() { const item = quizQuestions[quizStep]; $('#quizQuestion').textContent = item.q; $('#quizOptions').innerHTML = item.options.map(x => `<button class="quiz-option">${x}</button>`).join(''); $('#quizResult').textContent = ''; $('#quizNext').style.display = 'none'; $$('.quiz-option').forEach(btn => btn.addEventListener('click', () => { $('#quizResult').style.whiteSpace = 'pre-line'; $('#quizResult').textContent = item.result; if (quizStep === 0) $('#quizNext').style.display = 'inline-block'; else btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true); })); }
+    renderQuiz(); $('#quizNext').addEventListener('click', () => { quizStep = 1; renderQuiz(); });
+
+    // Voucher sequence
+    $('#claimButton').addEventListener('click', () => { const steps = $$('.claim-step'); $('#claimButton').disabled = true; steps.forEach((step, i) => setTimeout(() => step.classList.add('show'), i * 720)); setTimeout(() => { $('#claimButton').textContent = '已确认领取'; toast('月亮已经好好收下了。'); }, steps.length * 720); });
+
+    // Hidden details
+    let pressTimer; const moon = $('#moonButton'); moon.addEventListener('pointerdown', () => { pressTimer = setTimeout(() => toast('月亮不能真的摘下来。\n但我可以陪你看。'), 2000); }); ['pointerup','pointerleave','pointercancel'].forEach(type => moon.addEventListener(type, () => clearTimeout(pressTimer)));
+    let secretStep = 0; const secretCopy = ['这个你都发现了。','如果你看到这里，那我要偷偷告诉你一件事。','其实这个网页里，我最喜欢的并不是月亮。','也不是照片。','也不是我写的那些话。','是正在看它的你。\n\n嘘。'];
+    $('#hiddenStar').addEventListener('click', () => { secretStep = 0; $('#secretTitle').textContent = '咦。'; $('#secretText').textContent = secretCopy[0]; $('#secretNext').textContent = '看看是什么'; $('#secretModal').classList.add('open'); });
+    $('#secretNext').addEventListener('click', () => { secretStep++; if (secretStep < secretCopy.length) { $('#secretText').textContent = secretCopy[secretStep]; $('#secretNext').textContent = secretStep === secretCopy.length - 1 ? '不告诉别人' : '继续'; } else $('#secretModal').classList.remove('open'); });
+    $('#secretModal').addEventListener('click', e => { if (e.target.id === 'secretModal') e.currentTarget.classList.remove('open'); });
+    let madeClicks = 0; $('.ending-copy em').addEventListener('click', () => { madeClicks++; if (madeClicks === 5) toast('恭喜你发现开发者模式。\n开发者目前没有别的功能。\n主要负责喜欢你。'); });
+    setTimeout(() => toast('还没看完吗？\n没关系，慢慢看。'), 300000);
+
+    // Lightweight ambient tone via Web Audio; no external file required.
+    let audioCtx, audioTimer, audioOn = false; function startAudio() { if (audioOn) return; audioOn = true; $('#music').classList.add('on'); try { audioCtx ||= new (window.AudioContext || window.webkitAudioContext)(); const play = () => { if (!audioOn) return; const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = 'sine'; osc.frequency.value = [220, 277.18, 329.63][Math.floor(Math.random()*3)]; gain.gain.setValueAtTime(.0001, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(.025, audioCtx.currentTime + .08); gain.gain.exponentialRampToValueAtTime(.0001, audioCtx.currentTime + 2.2); osc.connect(gain).connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 2.3); audioTimer = setTimeout(play, 2700); }; play(); } catch(e) {} }
+    function stopAudio() { audioOn = false; $('#music').classList.remove('on'); clearTimeout(audioTimer); }
+    $('#music').addEventListener('click', () => { if (audioOn) { stopAudio(); toast('安静看月亮模式'); } else { startAudio(); toast('今晚的 BGM 已开启'); } }); $('#musicLeave').addEventListener('click', startAudio);
+    $('#againButton').addEventListener('click', () => scrollTo({top:0, behavior:'smooth'})); $('#photosButton').addEventListener('click', () => $('#gallery').scrollIntoView({behavior:'smooth'}));
+  </script>
+</body>
 </html>
+
