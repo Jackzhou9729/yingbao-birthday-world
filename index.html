@@ -207,12 +207,19 @@
     .hidden-star { display: none; }
     /* Keep this as a warm, simple greeting instead of a collection of cards. */
     #small-things, #quiz, #claim { display: none; }
+    .chapter { padding-top: clamp(72px, 9vw, 120px); padding-bottom: clamp(72px, 9vw, 120px); }
+    .chapter-intro { margin-bottom: 42px; }
+    #about .chapter-intro { margin-bottom: 0; }
+    .chapter-lead { font-size: 18px; line-height: 1.9; }
     .story-line.emphasis { color: #244466; text-shadow: none; }
     .moment { background: rgba(255,255,255,.4); border: 0; border-bottom: 1px solid rgba(93,145,183,.22); border-radius: 0; box-shadow: none; }
     .moment.open { background: rgba(255,255,255,.55); border-color: rgba(217,147,47,.34); }
     .moment summary, .moment-content { padding-left: 0; padding-right: 0; }
     .timeline .moment:not(:first-child) { display: none; }
     .gallery-item { border: 0; box-shadow: 0 14px 35px rgba(63,116,163,.1); }
+    .gallery-item:nth-child(2), .gallery-item:nth-child(5) { transform: none; }
+    .gallery-photo, .gallery-item:nth-child(n) .gallery-photo { background: rgba(255,255,255,.38); border-color: rgba(93,145,183,.18); }
+    .gallery-caption { padding-top: 8px; font-size: 15px; }
     .edit-hint { color: #6f8aa5; }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
@@ -256,27 +263,7 @@
 
     <section class="chapter" id="about">
       <div class="container">
-        <header class="chapter-intro reveal"><h2 class="chapter-title">我们认识很久了</h2><p class="chapter-lead">本科时，我们就是同学。后来隔了很久，我还是主动去了株洲找你。</p></header>
-        <div class="timeline">
-          <details class="moment reveal"><summary><span><span class="moment-kicker">关于我们</span><span class="moment-title">我主动去株洲找你</span></span></summary><div class="moment-content"><p class="moment-text">我们本科时就是认识的同学。过了挺久以后，我还是主动去了株洲找你，因为我想认真和你发展成对象。<strong>现在想想，勇敢一次真的很好。</strong></p></div></details>
-          <details class="moment reveal"><summary><span><span class="moment-kicker">02 · 第一次觉得，和你待着很舒服</span><span class="moment-title">时间过得特别快</span></span></summary><div class="moment-content"><p class="moment-text">我记不清那天所有的细节了。
-
-但我记得一种感觉——时间过得特别快。
-
-原来遇到真正聊得来的人，是不会一直想着几点该回家的。</p></div></details>
-          <details class="moment reveal"><summary><span><span class="moment-kicker">03 · 第一次一起出发</span><span class="moment-title">去哪里，好像没有和谁去重要</span></span></summary><div class="moment-content"><p class="moment-text">后来我们开始一起去一些地方。
-
-看海。看日落。吃东西。走很久的路。拍很多照片。
-
-但后来翻照片的时候，我发现我真正记住的，经常不是景点。
-
-是你走在我旁边，是一起找吃的，是坐车的时候，是累了之后两个人随便找个地方休息。<strong>“去哪里”好像没有“和谁去”重要。</strong></p></div></details>
-          <details class="moment reveal"><summary><span><span class="moment-kicker">05 · 现在</span><span class="moment-title">我觉得这样就很好</span></span></summary><div class="moment-content"><p class="moment-text">然后我们就这样，一点一点走到了今天。
-
-没有什么电影一样的大剧情。
-
-更多的是很多很小、很普通、但我舍不得删掉的日子。<strong>我觉得这样就很好。</strong></p></div></details>
-        </div>
+        <header class="chapter-intro reveal"><h2 class="chapter-title">我们认识很久了</h2><p class="chapter-lead">本科时，我们就是同学。后来隔了挺久，我主动去了株洲找你。<br>因为我想认真和你发展成对象。</p></header>
       </div>
     </section>
 
@@ -396,9 +383,14 @@
     let madeClicks = 0; $('.ending-copy em').addEventListener('click', () => { madeClicks++; if (madeClicks === 5) toast('恭喜你发现开发者模式。\n开发者目前没有别的功能。\n主要负责喜欢你。'); });
     setTimeout(() => toast('还没看完吗？\n没关系，慢慢看。'), 300000);
 
-    // Lightweight ambient tone via Web Audio; no external file required.
-    let audioCtx, audioTimer, audioOn = false; function startAudio() { if (audioOn) return; audioOn = true; $('#music').classList.add('on'); try { audioCtx ||= new (window.AudioContext || window.webkitAudioContext)(); const play = () => { if (!audioOn) return; const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = 'sine'; osc.frequency.value = [220, 277.18, 329.63][Math.floor(Math.random()*3)]; gain.gain.setValueAtTime(.0001, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(.025, audioCtx.currentTime + .08); gain.gain.exponentialRampToValueAtTime(.0001, audioCtx.currentTime + 2.2); osc.connect(gain).connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 2.3); audioTimer = setTimeout(play, 2700); }; play(); } catch(e) {} }
-    function stopAudio() { audioOn = false; $('#music').classList.remove('on'); clearTimeout(audioTimer); }
+    // Original gentle pentatonic ambient loop: no external track or copyright concerns.
+    let audioCtx, audioTimer, audioOn = false, audioMaster;
+    const calmMelody = [293.66, 349.23, 392, null, 440, 392, 349.23, null, 293.66, 349.23, 392, 523.25, 440, 392, 349.23, null];
+    const calmChords = [[146.83, 220, 293.66], [164.81, 246.94, 329.63], [130.81, 196, 261.63], [146.83, 220, 329.63]];
+    function playSoftNote(freq, when, duration, volume, type = 'sine') { const osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = type; osc.frequency.value = freq; gain.gain.setValueAtTime(.0001, when); gain.gain.exponentialRampToValueAtTime(volume, when + .12); gain.gain.exponentialRampToValueAtTime(.0001, when + duration); osc.connect(gain).connect(audioMaster); osc.start(when); osc.stop(when + duration + .08); }
+    function scheduleCalmPhrase() { if (!audioOn) return; const beat = .78, start = audioCtx.currentTime + .05; calmMelody.forEach((freq, i) => { if (freq) playSoftNote(freq, start + i * beat, beat * 1.65, .022); }); calmChords.forEach((chord, i) => chord.forEach(freq => playSoftNote(freq, start + i * beat * 4, beat * 7.2, .006, 'triangle'))); audioTimer = setTimeout(scheduleCalmPhrase, calmMelody.length * beat * 1000 - 120); }
+    function startAudio() { if (audioOn) return; audioOn = true; $('#music').classList.add('on'); try { audioCtx ||= new (window.AudioContext || window.webkitAudioContext)(); audioCtx.resume?.(); if (!audioMaster) { audioMaster = audioCtx.createGain(); audioMaster.connect(audioCtx.destination); } audioMaster.gain.cancelScheduledValues(audioCtx.currentTime); audioMaster.gain.setValueAtTime(.0001, audioCtx.currentTime); audioMaster.gain.exponentialRampToValueAtTime(.72, audioCtx.currentTime + .8); scheduleCalmPhrase(); } catch(e) { audioOn = false; } }
+    function stopAudio() { audioOn = false; $('#music').classList.remove('on'); clearTimeout(audioTimer); if (audioMaster && audioCtx) { audioMaster.gain.cancelScheduledValues(audioCtx.currentTime); audioMaster.gain.exponentialRampToValueAtTime(.0001, audioCtx.currentTime + .6); } }
     $('#music').addEventListener('click', () => { if (audioOn) { stopAudio(); toast('安静看月亮模式'); } else { startAudio(); toast('今晚的 BGM 已开启'); } }); $('#musicLeave').addEventListener('click', startAudio);
     $('#againButton').addEventListener('click', () => scrollTo({top:0, behavior:'smooth'})); $('#photosButton').addEventListener('click', () => $('#gallery').scrollIntoView({behavior:'smooth'}));
   </script>
