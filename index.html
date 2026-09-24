@@ -179,6 +179,32 @@
     .reveal { opacity: 0; transform: translateY(22px); transition: opacity .8s ease, transform .8s ease; }
     .reveal.is-visible { opacity: 1; transform: none; }
     .edit-hint { margin-top: 19px; color: var(--faint); font-size: 12px; letter-spacing: .06em; }
+    /* Bright floral direction: a clear sky, warm sunlight, and the two flowers she likes. */
+    :root { --ink: #244466; --muted: #5d7896; --faint: #7892ad; --night: #eef8ff; --navy: #dceeff; --navy-2: #cce7fb; --gold: #d9932f; --gold-soft: #8a5a21; --line: rgba(217,147,47,.24); --glass: rgba(255,255,255,.68); --shadow: 0 24px 70px rgba(63,116,163,.16); }
+    body { background: #eef8ff; color: var(--ink); }
+    .intro { background: radial-gradient(circle at 50% 33%, rgba(255,255,255,.98) 0 18%, rgba(255,240,190,.68) 35%, transparent 59%), linear-gradient(145deg, #d7edff, #fff4d5 68%, #ffe5c7); }
+    .story { background: radial-gradient(circle at 50% 15%, rgba(255,255,255,.98) 0 16%, rgba(255,229,167,.72) 34%, transparent 62%), linear-gradient(180deg, #c8e7ff, #f9fcff 67%, #fff0d8); }
+    .chapter, .chapter:nth-of-type(even) { background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(222,241,255,.94) 52%, rgba(255,246,224,.9)); }
+    .paper { background: linear-gradient(145deg, #fffaf0, #e7f5ff 65%, #fff0d4); }
+    .ending { background: radial-gradient(circle at 50% 27%, rgba(255,255,255,.98) 0 15%, rgba(255,218,134,.65) 34%, transparent 62%), linear-gradient(180deg, #d7efff, #fff9ef 72%, #ffe7ca); }
+    .stars { opacity: .34; }
+    .nebula { background: radial-gradient(ellipse, rgba(255,204,104,.28), rgba(110,189,239,.2), transparent 66%); }
+    .music { background: rgba(255,255,255,.72); color: #b8751f; border-color: rgba(217,147,47,.4); }
+    .gold-button { background: rgba(255,255,255,.48); color: #7a4b17; }
+    .gold-button:hover { background: rgba(255,255,255,.86); box-shadow: 0 10px 30px rgba(217,147,47,.18); }
+    .ghost-button { background: rgba(255,255,255,.48); color: #5d7896; border-color: rgba(93,120,150,.25); }
+    .moment, .quiz-card, .modal-card { background: rgba(255,255,255,.65); border-color: rgba(93,145,183,.24); box-shadow: 0 15px 45px rgba(63,116,163,.08); }
+    .moment.open { background: rgba(255,255,255,.84); border-color: rgba(217,147,47,.4); }
+    .moment-content { grid-template-columns: 1fr; }
+    .card-face { background: linear-gradient(145deg, rgba(255,255,255,.9), rgba(221,242,255,.82)); border-color: rgba(93,145,183,.25); box-shadow: 0 15px 40px rgba(63,116,163,.09); }
+    .card-face.back { background: linear-gradient(145deg, rgba(255,249,232,.94), rgba(224,243,255,.9)); }
+    .gallery-photo { background: #d9efff; border-color: rgba(93,145,183,.24); color: #6b8097; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-caption, .gallery-detail { color: var(--ink); }
+    .floral-ribbon { color: #ca7a34; font-size: 22px; letter-spacing: .13em; filter: drop-shadow(0 4px 10px rgba(217,147,47,.18)); }
+    .care-note { border-color: rgba(217,147,47,.32); background: rgba(255,255,255,.34); border-radius: 15px; }
+    .ending-copy { color: #6f562e; }
+    .ending-copy strong { color: #bd7026; }
+    .hidden-star { color: rgba(195,125,34,.45); }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
   </style>
 </head>
@@ -191,7 +217,8 @@
     <section class="screen intro" id="home" aria-labelledby="intro-title">
       <div class="stars"></div><div class="nebula"></div>
       <div class="intro-content">
-        <span class="eyebrow">2026 · 中秋特别篇</span>
+        <span class="eyebrow">2026 · 中秋 · 给莹宝</span>
+        <div class="floral-ribbon" aria-hidden="true">🌷　🌻　🌷</div>
         <button class="moon-button" id="moonButton" aria-label="月亮，长按查看隐藏话语"><span class="moon"><span class="moon-crescent"></span></span></button>
         <div class="intro-title" id="intro-title">今晚的月亮，<br>想送给你。</div>
         <div class="intro-copy">不是月饼。<br>也不是什么很贵的礼物。<br>只是一些，我想认真留给你的东西。</div>
@@ -223,29 +250,29 @@
       <div class="container">
         <header class="chapter-intro reveal"><div class="chapter-num">02 · 关于我们</div><h2 class="chapter-title">我们已经一起收藏了一些日子</h2><p class="chapter-lead">有些日子当时看起来很普通，<br>后来才发现，我一直记得。</p></header>
         <div class="timeline">
-          <details class="moment reveal"><summary><span><span class="moment-kicker">01 · 最开始</span><span class="moment-title">那时候的我们</span></span></summary><div class="moment-content"><div class="photo-placeholder">EARLY PHOTO<br>放一张早期照片</div><p class="moment-text">那时候的我们，应该还不知道后来会发生这么多事。
+          <details class="moment reveal"><summary><span><span class="moment-kicker">01 · 最开始</span><span class="moment-title">那时候的我们</span></span></summary><div class="moment-content"><p class="moment-text">那时候的我们，应该还不知道后来会发生这么多事。
 
 我有时候会觉得很神奇。
 
 如果当时少说一句话，晚一点认识，或者刚好没有出现在那个地方，我们现在会不会是完全不同的人生。<strong>还好没有。</strong></p></div></details>
-          <details class="moment reveal"><summary><span><span class="moment-kicker">02 · 第一次觉得，和你待着很舒服</span><span class="moment-title">时间过得特别快</span></span></summary><div class="moment-content"><div class="photo-placeholder alt">FIRST DATE<br>放一张那天的照片</div><p class="moment-text">我记不清那天所有的细节了。
+          <details class="moment reveal"><summary><span><span class="moment-kicker">02 · 第一次觉得，和你待着很舒服</span><span class="moment-title">时间过得特别快</span></span></summary><div class="moment-content"><p class="moment-text">我记不清那天所有的细节了。
 
 但我记得一种感觉——时间过得特别快。
 
 原来遇到真正聊得来的人，是不会一直想着几点该回家的。</p></div></details>
-          <details class="moment reveal"><summary><span><span class="moment-kicker">03 · 第一次一起出发</span><span class="moment-title">去哪里，好像没有和谁去重要</span></span></summary><div class="moment-content"><div class="photo-placeholder warm">TRAVEL PHOTO<br>放一张旅行照</div><p class="moment-text">后来我们开始一起去一些地方。
+          <details class="moment reveal"><summary><span><span class="moment-kicker">03 · 第一次一起出发</span><span class="moment-title">去哪里，好像没有和谁去重要</span></span></summary><div class="moment-content"><p class="moment-text">后来我们开始一起去一些地方。
 
 看海。看日落。吃东西。走很久的路。拍很多照片。
 
 但后来翻照片的时候，我发现我真正记住的，经常不是景点。
 
 是你走在我旁边，是一起找吃的，是坐车的时候，是累了之后两个人随便找个地方休息。<strong>“去哪里”好像没有“和谁去”重要。</strong></p></div></details>
-          <details class="moment reveal"><summary><span><span class="moment-kicker">04 · 那些没拍下来的瞬间</span><span class="moment-title">真正开心的时候，人有时候会忘记拍照</span></span></summary><div class="moment-content"><div class="photo-placeholder dark">这里故意留白<br>没有照片也没关系</div><p class="moment-text">其实我最喜欢的一些瞬间，根本没有照片。
+          <details class="moment reveal"><summary><span><span class="moment-kicker">04 · 那些没拍下来的瞬间</span><span class="moment-title">真正开心的时候，人有时候会忘记拍照</span></span></summary><div class="moment-content"><p class="moment-text">其实我最喜欢的一些瞬间，根本没有照片。
 
 一起吃饭的时候。在路上聊天的时候。你靠着我的时候。两个人什么都不干的时候。
 
 还有很多我当时没有想到要拿出手机记录的时刻。</p></div></details>
-          <details class="moment reveal"><summary><span><span class="moment-kicker">05 · 现在</span><span class="moment-title">我觉得这样就很好</span></span></summary><div class="moment-content"><div class="photo-placeholder warm">NOW PHOTO<br>放一张近期合照</div><p class="moment-text">然后我们就这样，一点一点走到了今天。
+          <details class="moment reveal"><summary><span><span class="moment-kicker">05 · 现在</span><span class="moment-title">我觉得这样就很好</span></span></summary><div class="moment-content"><p class="moment-text">然后我们就这样，一点一点走到了今天。
 
 没有什么电影一样的大剧情。
 
@@ -296,12 +323,12 @@
       <div class="container">
         <header class="chapter-intro reveal"><div class="chapter-num">04 · 月光相册</div><h2 class="chapter-title">一些我舍不得删掉的画面</h2><p class="chapter-lead">不按时间，也没有排名。<br>就是有时候翻到，会停下来多看两秒。</p></header>
         <div class="gallery-grid">
-          <button class="gallery-item reveal" data-detail="没有什么特别的原因。只是觉得那天的你，很好看。"><span class="gallery-photo">PHOTO 01<br>最好看的一张</span><span class="gallery-caption">我很喜欢这一张。</span><span class="gallery-detail"></span></button>
-          <button class="gallery-item reveal" data-detail="但现在回想起来，我记得最清楚的是和谁一起看的。"><span class="gallery-photo">PHOTO 02<br>旅行照</span><span class="gallery-caption">那天风景很好。</span><span class="gallery-detail"></span></button>
-          <button class="gallery-item reveal" data-detail="理由暂时保密。主要是以后可能有用。"><span class="gallery-photo">PHOTO 03<br>搞怪的一张</span><span class="gallery-caption">这一张必须留下。</span><span class="gallery-detail"></span></button>
-          <button class="gallery-item reveal" data-detail="后来发现，普通的一天也会因为一个人变得值得收藏。"><span class="gallery-photo">PHOTO 04<br>日常照片</span><span class="gallery-caption">普通的一天。</span><span class="gallery-detail"></span></button>
-          <button class="gallery-item reveal" data-detail="我好像越来越喜欢这个词了。"><span class="gallery-photo">PHOTO 05<br>情侣合照</span><span class="gallery-caption">我们。</span><span class="gallery-detail"></span></button>
-          <button class="gallery-item reveal" data-detail="我希望那时候的我们，还记得这一天。也还在一起。"><span class="gallery-photo">PHOTO 06<br>最有故事的一张</span><span class="gallery-caption">如果很多年以后再看到这一张……</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="和你一起看过海，风会替我把这一天记很久。"><img class="gallery-photo" src="photos/01-sea-couple.jpg" alt="旭宝和莹宝在海边牵手合照"><span class="gallery-caption">我们一起看过的海。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="镜子里有两个人的时候，普通的一天也会变得很好看。"><img class="gallery-photo" src="photos/02-mirror.jpg" alt="旭宝和莹宝的镜子合照"><span class="gallery-caption">一起照过的镜子。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="你把夕阳举起来的时候，我也偷偷记住了这一刻。"><img class="gallery-photo" src="photos/03-sunset.jpg" alt="莹宝在海边夕阳下张开双臂"><span class="gallery-caption">你把夕阳举起来的时候。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="花海里的人是你，所以这一张比花更好看。"><img class="gallery-photo" src="photos/04-flower-wall.jpg" alt="莹宝站在彩色花墙前"><span class="gallery-caption">花海里的莹宝。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="你喜欢花，我就想把这份明亮也留给你。"><img class="gallery-photo" src="photos/05-flower-basket.jpg" alt="莹宝抱着花篮微笑"><span class="gallery-caption">你和花一样好看。</span><span class="gallery-detail"></span></button>
+          <button class="gallery-item reveal" data-detail="黄色很适合你，像一束走到哪里都会发光的向日葵。"><img class="gallery-photo" src="photos/06-yellow.jpg" alt="莹宝穿黄色衣服的近照"><span class="gallery-caption">穿黄色衣服的莹宝。</span><span class="gallery-detail"></span></button>
         </div>
         <p class="edit-hint">把上面的 6 个画面换成你们的照片，就会变成只属于你们的月光相册。</p>
       </div>
@@ -330,7 +357,7 @@
       </div>
     </section>
 
-    <section class="chapter" id="claim"><div class="container"><header class="chapter-intro reveal"><div class="chapter-num">07 · 领取你的月亮</div><h2 class="chapter-title">最后一件事。</h2><p class="chapter-lead">你还有一份礼物没有领取。</p></header><div class="voucher-wrap reveal"><div class="voucher"><div class="voucher-top"><h2>🌙<br>2026 中秋特别兑换券</h2><span class="voucher-moon">月</span></div><div class="voucher-block"><span class="voucher-label">持有人</span><div class="voucher-value">莹宝</div></div><div class="voucher-block"><span class="voucher-label">可兑换内容</span><div class="voucher-value">一个拥抱</div><div style="color:#76583d">不限时间 · 不限地点 · 不限次数</div></div><div class="voucher-block"><span class="voucher-label">附加权益</span><ul class="voucher-list"><li>✓ 心情不好时可申请加长版拥抱</li><li>✓ 出去玩累了可申请靠一下</li><li>✓ 想吃东西时可以提出需求</li><li>✓ 生气时拥有优先哄好权</li><li>✓ 特殊情况下允许无理由撒娇</li></ul></div><div class="validity"><span class="voucher-label">有效期</span><strong id="validityText">永久有效</strong></div><div class="voucher-note">最终解释权归你所有。</div></div></div><div class="claim-message" id="claimMessage"><span class="claim-step">正在确认身份……</span><span class="claim-step">验证成功。</span><span class="claim-step">正在绑定……</span><span class="claim-step">绑定成功。</span><span class="claim-step"><strong>月亮已归你所有。</strong><br><small>顺便附赠了一个我。</small></span></div><div style="text-align:center"><button class="gold-button" id="claimButton">确认领取</button></div></div></section>
+    <section class="chapter" id="claim"><div class="container"><header class="chapter-intro reveal"><div class="chapter-num">07 · 领取你的月亮</div><h2 class="chapter-title">最后一件事。</h2><p class="chapter-lead">你还有一份礼物没有领取。</p></header><div class="voucher-wrap reveal"><div class="voucher"><div class="voucher-top"><h2>🌙<br>2026 中秋兑换券</h2><span class="voucher-moon">月</span></div><div class="voucher-block"><span class="voucher-label">持有人</span><div class="voucher-value">莹宝</div></div><div class="voucher-block"><span class="voucher-label">可兑换内容</span><div class="voucher-value">一个拥抱</div><div style="color:#76583d">不限时间 · 不限地点 · 不限次数</div></div><div class="voucher-block"><span class="voucher-label">附加权益</span><ul class="voucher-list"><li>✓ 心情不好时可申请加长版拥抱</li><li>✓ 出去玩累了可申请靠一下</li><li>✓ 想吃东西时可以提出需求</li><li>✓ 生气时拥有优先哄好权</li><li>✓ 特殊情况下允许无理由撒娇</li></ul></div><div class="validity"><span class="voucher-label">有效期</span><strong id="validityText">永久有效</strong></div><div class="voucher-note">最终解释权归你所有。</div></div></div><div class="claim-message" id="claimMessage"><span class="claim-step">正在确认身份……</span><span class="claim-step">验证成功。</span><span class="claim-step">正在绑定……</span><span class="claim-step">绑定成功。</span><span class="claim-step"><strong>月亮已归你所有。</strong><br><small>顺便附赠了一个我。</small></span></div><div style="text-align:center"><button class="gold-button" id="claimButton">确认领取</button></div></div></section>
 
     <section class="screen ending" id="ending"><div class="stars"></div><div class="container"><div class="moon reveal" id="endingMoon"><span class="moon-crescent"></span></div><div class="ending-copy reveal">人们总说，<br>月亮代表团圆。<br><br>可我现在觉得，<br>月亮还有另外一个意思。<br><br>当我们不在同一个地方的时候，<br>至少抬头看到的是同一个月亮。<strong>中秋快乐。<br>我的女孩。</strong>谢谢你出现在我的生活里。<br>今年的月亮送给你。<em>明年的，也提前给你留着。<br><br>2026 · Made with love for 莹宝<br><br>—— 旭宝</em></div><div class="ending-actions reveal"><button class="gold-button" id="againButton">再看一次</button><button class="ghost-button" id="photosButton">回到我们的照片</button><button class="ghost-button" id="musicLeave">把音乐留一会儿</button></div></div></section>
   </main>
